@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,14 +25,37 @@ namespace BT.Views
     /// </summary>
     public sealed partial class ViewPage : Page
     {
+        public ObservableCollection<String> titleList = new ObservableCollection<String>();
+
         public ViewPage()
         {
             this.InitializeComponent();
         }
-
-        private void BtnSaveFile_Click(object sender, RoutedEventArgs e)
+        
+        private async void ViewPage_OnLoaded(object sender, RoutedEventArgs e)
         {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
 
+            var readfFile = await folder.GetFilesAsync();
+            foreach (var titleFile in readfFile)
+            {
+                titleList.Add(titleFile.Name);
+            }
+            
+        }
+
+        private async void showContent(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox bc = (ComboBox)sender;
+
+            Debug.WriteLine(bc.SelectedValue);
+            string fileName = bc.SelectedValue.ToString();
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            var readfFile = await folder.GetFileAsync(fileName);
+            string a = await FileIO.ReadTextAsync(readfFile);
+            content.Text = a;
+
+            Debug.WriteLine(a);
         }
     }
 }

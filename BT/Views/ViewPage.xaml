@@ -1,4 +1,6 @@
 ﻿<Page
+    x:Name="ViewPage"
+    Loaded="ViewPage_OnLoaded"
     x:Class="BT.Views.ViewPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,8 +14,6 @@
         <StackPanel x:Name="ParentStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBox x:Name="FileName" Header="File Name" Margin="0, 30, 0, 0" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" Width="293"/>
             <TextBox x:Name="Content" Header="Content" Margin="0, 30, 0, 0" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" Width="293" Height="300"/>
-
-            <Button x:Name="BtnSaveFile" Content="Save File" Margin="0, 30, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Top" Click="BtnSaveFile_Click" />
 
         </StackPanel>
     </Grid>

@@ -43,10 +43,18 @@ namespace BT.Views
             var content = this.Content.Text;
 
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await folder.CreateFileAsync(fileName + ".txt", CreationCollisionOption.OpenIfExists);
-            await FileIO.AppendTextAsync(file, content);
+            try
+            {
+                StorageFile readfFile = await folder.GetFileAsync(fileName);
+                await FileIO.AppendTextAsync(readfFile, content);
 
-            await FileIO.WriteTextAsync(file, content);
+            }
+            catch (Exception)
+            {
+                StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(file, content);
+            }
+
         }
     }
 }
